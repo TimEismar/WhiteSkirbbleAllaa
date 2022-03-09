@@ -72,8 +72,10 @@ public class STTestMain extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(createColorMenu());
+        menuBar.add(createToolMenu ());
         return menuBar;
     }
+
     private JMenu createColorMenu() {
         JMenu editMenu = new JMenu("Color");
         JMenuItem re = new JMenuItem("Red");
@@ -82,6 +84,42 @@ public class STTestMain extends JFrame {
                 drawingArea.setCurrentColor(Color.RED);
             }});
         editMenu.add(re);
+        JMenuItem bl = new JMenuItem("Blue");
+        bl.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                drawingArea.setCurrentColor(Color.BLUE);
+            }});
+        editMenu.add(bl);
+        JMenuItem gr = new JMenuItem("Blue");
+        gr.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                drawingArea.setCurrentColor(Color.GREEN);
+            }});
+        editMenu.add(gr);
+        JMenuItem bk = new JMenuItem("Black");
+        bk.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                drawingArea.setCurrentColor(Color.BLACK);
+            }});
+        editMenu.add(bk);
+        JMenuItem cus = new JMenuItem("Custom");
+        cus.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                drawingArea.setCurrentColor(JColorChooser.showDialog(null,
+                                                                     "Farbauswahl", null));
+            }});
+        editMenu.add(cus);
+        return editMenu;
+    }
+
+    private JMenu createToolMenu() {
+        JMenu editMenu = new JMenu ( "Tools" );
+        JMenuItem brush = new JMenuItem("Brush");
+        brush.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+            }});
+        editMenu.add(brush);
+
         return editMenu;
     }
 
