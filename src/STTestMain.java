@@ -82,6 +82,15 @@ public class STTestMain extends JFrame {
                 drawingArea.setCurrentColor(Color.RED);
             }});
         editMenu.add(re);
+        JMenuItem cus = new JMenuItem("Custom");
+        cus.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                drawingArea.setCurrentColor(JColorChooser.showDialog(null,
+                        "Farbauswahl", null));
+                System.out.println("cus");
+            }});
+
+        editMenu.add(cus);
         return editMenu;
     }
 
