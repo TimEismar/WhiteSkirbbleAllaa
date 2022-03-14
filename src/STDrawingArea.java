@@ -20,10 +20,12 @@ public class STDrawingArea extends JPanel {
 
 
     ArrayList<Point> points = new ArrayList<Point>();
-
+    int oldX,oldY,currentX,currentY;
     private Color currentColor;
-    BufferedImage bImage = new BufferedImage(DA_WIDTH, DA_HEIGHT, BufferedImage.TYPE_INT_RGB);
-
+    static BufferedImage bImage = new BufferedImage(DA_WIDTH, DA_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    public static BufferedImage getImage(){
+        return bImage;
+    }
     public STDrawingArea()
     {
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -84,6 +86,29 @@ public class STDrawingArea extends JPanel {
 
     public void freehandLines(Graphics g)
     {
+        /*if(points != null && points.size() > 1){
+
+            addMouseListener(new MouseAdapter(){
+
+                public void mouseReleased(MouseEvent e)
+                {
+                   oldX= e.getX();
+                   oldY= e.getY();
+                }
+            });
+            addMouseListener(new MouseAdapter(){
+
+                public void mouseReleased(MouseEvent e)
+                {
+                    currentX= e.getX();
+                    currentY= e.getY();
+                }
+            });
+
+            g.setColor(getCurrentColor());
+            g.drawRect(oldX,oldY,currentX-oldX,currentY-oldY);
+        }*/
+
         if(points != null && points.size() > 1)
         {
 
