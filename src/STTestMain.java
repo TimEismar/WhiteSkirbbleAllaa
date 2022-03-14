@@ -13,22 +13,24 @@ import java.nio.ByteBuffer;
 
 
 public class STTestMain extends JFrame {
-    boolean empfangen=false;
-    Socket s = new Socket("localhost", 2222);
-    OutputStream out = s.getOutputStream();
+    boolean empfangen=true;
     STDrawingArea drawingArea = new STDrawingArea();
     public STTestMain() throws IOException {
         //JFrame settings
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Gartic");
+
         setResizable(false);
         setVisible(true);
-        setJMenuBar(createMenuBar());
-
+        if(!empfangen) {
+            setJMenuBar(createMenuBar());
+            setTitle("Gartic");
+        }else{
+            setTitle("Was siehst Du?");
+        }
 
         //Panel of buttons
         JPanel buttonContainer = new JPanel();
-        if(empfangen) {
+        if(!empfangen) {
             JButton btnRedPen = new JButton("Fertig");
             JButton btnGreenPen = new JButton("Green Pen");
             JButton btnClear = new JButton("Clear");
@@ -44,8 +46,8 @@ public class STTestMain extends JFrame {
                     // TODO Auto-generated method stub
                     BufferedImage image = STDrawingArea.getImage();
                     try {
-                        ImageIO.write(image, "PNG", out);
-                    } catch (IOException ex) {
+                        Send.send(image);
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -69,16 +71,18 @@ public class STTestMain extends JFrame {
                 }
             });
         }else{
-            JTextField ergebnis = new JTextField("Was siehst du?", 30);
+            JTextField ergebnis = new JTextField("", 30);
             JButton btnRedPen = new JButton("Fertig");
             btnRedPen.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-
+                    String result=ergebnis.getText();
                 }
             });
+            buttonContainer.add(ergebnis);
+            buttonContainer.add(btnRedPen);
         }
         //Adding things to JFrame
         getContentPane().add(drawingArea);

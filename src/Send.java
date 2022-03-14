@@ -12,7 +12,7 @@ public class Send {
        // BufferedImage image = ImageIO.read(new File("C:\\Users\\eisma\\OneDrive - Wirteltor Gymnasium\\Bewerbung\\Portrait\\test.png"));
     }
 
-    public void send(BufferedImage image) throws Exception {
+    public static void send(BufferedImage image) throws Exception {
         Socket socket = new Socket("localhost", 13085);
         OutputStream outputStream = socket.getOutputStream();
 
