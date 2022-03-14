@@ -18,7 +18,7 @@ public class STTestMain extends JFrame {
     public STTestMain() throws IOException {
         //JFrame settings
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Spelling Trainer");
+        setTitle("Gartic");
         setResizable(false);
         setVisible(true);
         setJMenuBar(createMenuBar());
