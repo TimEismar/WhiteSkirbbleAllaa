@@ -12,8 +12,6 @@ import java.net.Socket;
 
 public class STTestMain extends JFrame {
     boolean empfangen=false;
-    Socket s = new Socket("localhost", 2222);
-    OutputStream out = s.getOutputStream();
     STDrawingArea drawingArea = new STDrawingArea();
     public STTestMain() throws IOException {
         //JFrame settings
@@ -42,8 +40,8 @@ public class STTestMain extends JFrame {
                     // TODO Auto-generated method stub
                     BufferedImage image = STDrawingArea.getImage();
                     try {
-                        ImageIO.write(image, "PNG", out);
-                    } catch (IOException ex) {
+                        Send.send(image);
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
@@ -74,9 +72,11 @@ public class STTestMain extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
-
+                    String result=ergebnis.getText();
                 }
             });
+            buttonContainer.add(ergebnis);
+            buttonContainer.add(btnRedPen);
         }
         //Adding things to JFrame
         getContentPane().add(drawingArea);
