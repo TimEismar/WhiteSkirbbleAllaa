@@ -29,4 +29,16 @@ public class Send {
         System.out.println("Closing: " + System.currentTimeMillis());
         socket.close();
     }
+    public void sendTxt(String txt) throws Exception {
+        Socket socket = new Socket("localhost", 13085);
+        OutputStream outputStream = socket.getOutputStream();
+
+        outputStream.write(txt.getBytes());
+        outputStream.flush();
+        System.out.println("Flushed: " + System.currentTimeMillis());
+
+        Thread.sleep(120000);
+        System.out.println("Closing: " + System.currentTimeMillis());
+        socket.close();
+    }
 }

@@ -122,8 +122,6 @@ public class STTestMain extends JFrame {
         Socket socket = serverSocket.accept();
         InputStream inputStream = socket.getInputStream();
 
-        System.out.println("Reading: " + System.currentTimeMillis());
-
         byte[] sizeAr = new byte[4];
         inputStream.read(sizeAr);
         int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
@@ -138,6 +136,21 @@ public class STTestMain extends JFrame {
         drawingArea.clearDrawings();
         drawingArea.add(new JLabel(new ImageIcon(image)));
         serverSocket.close();
+    }
+    public String receiveTxt() throws Exception{
+        ServerSocket serverSocket = new ServerSocket(13085);
+        Socket socket = serverSocket.accept();
+        InputStream inputStream = socket.getInputStream();
+
+
+        StringBuilder sb = new StringBuilder();
+        for (int ch; (ch = inputStream.read()) != -1; ) {
+            sb.append((char) ch);
+        }
+
+        serverSocket.close();
+        return sb.toString();
+
     }
 
 }
