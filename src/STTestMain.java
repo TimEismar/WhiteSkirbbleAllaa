@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.io.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 
 public class STTestMain extends JFrame {
@@ -115,5 +117,26 @@ public class STTestMain extends JFrame {
         return editMenu;
     }
 
+    public void receive() throws Exception{
+        ServerSocket serverSocket = new ServerSocket(13085);
+        Socket socket = serverSocket.accept();
+        InputStream inputStream = socket.getInputStream();
+
+        System.out.println("Reading: " + System.currentTimeMillis());
+
+        byte[] sizeAr = new byte[4];
+        inputStream.read(sizeAr);
+        int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
+
+        byte[] imageAr = new byte[size];
+        inputStream.read(imageAr);
+
+        BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
+
+        System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
+        drawingArea.clearDrawings();
+        drawingArea.add(new JLabel(new ImageIcon(image)));
+        serverSocket.close();
+    }
 
 }
