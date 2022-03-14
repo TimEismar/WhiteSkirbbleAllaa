@@ -48,7 +48,7 @@ public class Receive {
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
 
         System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
-        drawingArea.clearDrawings();
+      
 
         serverSocket.close();
     }
