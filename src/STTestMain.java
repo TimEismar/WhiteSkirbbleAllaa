@@ -127,8 +127,6 @@ public class STTestMain extends JFrame {
         Socket socket = serverSocket.accept();
         InputStream inputStream = socket.getInputStream();
 
-        System.out.println("Reading: " + System.currentTimeMillis());
-
         byte[] sizeAr = new byte[4];
         inputStream.read(sizeAr);
         int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
@@ -139,6 +137,7 @@ public class STTestMain extends JFrame {
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
 
         System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
+
         drawingArea.clearDrawings();
         empfangen=true;
         STTestMain Result=new STTestMain();
@@ -146,6 +145,21 @@ public class STTestMain extends JFrame {
         Result.add(new JLabel(new ImageIcon(image)));
         serverSocket.close();
         empfangen=false;
+    }
+    public String receiveTxt() throws Exception{
+        ServerSocket serverSocket = new ServerSocket(13085);
+        Socket socket = serverSocket.accept();
+        InputStream inputStream = socket.getInputStream();
+
+
+        StringBuilder sb = new StringBuilder();
+        for (int ch; (ch = inputStream.read()) != -1; ) {
+            sb.append((char) ch);
+        }
+
+        serverSocket.close();
+        return sb.toString();
+
     }
 
 }

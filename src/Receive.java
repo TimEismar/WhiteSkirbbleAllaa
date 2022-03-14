@@ -37,7 +37,7 @@ public class Receive {
         InputStream inputStream = socket.getInputStream();
 
         System.out.println("Reading: " + System.currentTimeMillis());
-
+//if buffered image
         byte[] sizeAr = new byte[4];
         inputStream.read(sizeAr);
         int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
@@ -48,7 +48,7 @@ public class Receive {
         BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageAr));
 
         System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
-      
+
 
         serverSocket.close();
     }
