@@ -12,7 +12,7 @@ public class STTestMain extends JFrame {
     {
         //JFrame settings
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Spelling Trainer");
+        setTitle("Gartic");
         setResizable(false);
         setVisible(true);
         setJMenuBar(createMenuBar());
