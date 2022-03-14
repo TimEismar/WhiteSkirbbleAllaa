@@ -59,6 +59,7 @@ public class STTestMain extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
                     drawingArea.setCurrentColor(Color.GREEN);
+
                 }
             });
 
@@ -139,8 +140,12 @@ public class STTestMain extends JFrame {
 
         System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
         drawingArea.clearDrawings();
-        drawingArea.add(new JLabel(new ImageIcon(image)));
+        empfangen=true;
+        STTestMain Result=new STTestMain();
+
+        Result.add(new JLabel(new ImageIcon(image)));
         serverSocket.close();
+        empfangen=false;
     }
 
 }
