@@ -13,7 +13,8 @@ import java.nio.ByteBuffer;
 
 
 public class STTestMain extends JFrame {
-    boolean empfangen=true;
+    static boolean lock=false;
+    boolean empfangen=STDrawingArea.getEmpfangen();
     STDrawingArea drawingArea = new STDrawingArea();
     public STTestMain() throws IOException {
         //JFrame settings
@@ -44,6 +45,7 @@ public class STTestMain extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
+                    lock=true;
                     BufferedImage image = STDrawingArea.getImage();
                     try {
                         Send.send(image);
@@ -59,7 +61,6 @@ public class STTestMain extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
                     drawingArea.setCurrentColor(Color.GREEN);
-
                 }
             });
 
@@ -72,6 +73,7 @@ public class STTestMain extends JFrame {
                 }
             });
         }else{
+            lock=true;
             JTextField ergebnis = new JTextField("", 30);
             JButton btnRedPen = new JButton("Fertig");
             btnRedPen.addActionListener(new ActionListener() {
@@ -80,6 +82,11 @@ public class STTestMain extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
                     String result=ergebnis.getText();
+                    try {
+                        Send.sendTxt(result);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
             buttonContainer.add(ergebnis);
@@ -139,12 +146,12 @@ public class STTestMain extends JFrame {
         System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
 
         drawingArea.clearDrawings();
-        empfangen=true;
+        STDrawingArea.setEmpfangen(true);
         STTestMain Result=new STTestMain();
 
         Result.add(new JLabel(new ImageIcon(image)));
         serverSocket.close();
-        empfangen=false;
+        STDrawingArea.setEmpfangen(false);
     }
     public String receiveTxt() throws Exception{
         ServerSocket serverSocket = new ServerSocket(13085);
