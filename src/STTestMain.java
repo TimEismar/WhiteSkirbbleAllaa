@@ -16,7 +16,7 @@ public class STTestMain extends JFrame {
     static boolean lock=false;
     boolean empfangen=STDrawingArea.getEmpfangen();
     STDrawingArea drawingArea = new STDrawingArea();
-    public STTestMain() throws IOException {
+    public STTestMain() throws Exception {
         //JFrame settings
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -76,12 +76,17 @@ public class STTestMain extends JFrame {
             lock=true;
             JTextField ergebnis = new JTextField("", 30);
             JButton btnRedPen = new JButton("Fertig");
+            boolean h=true;
+            while(h){
+                receive();
+            }
             btnRedPen.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
                     String result=ergebnis.getText();
+                    lock=false;
                     try {
                         Send.sendTxt(result);
                     } catch (Exception ex) {
@@ -98,10 +103,9 @@ public class STTestMain extends JFrame {
         pack();
 
 
-
     }
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws Exception {
         STTestMain test = new STTestMain();
     }
     private JMenuBar createMenuBar() {
