@@ -48,20 +48,46 @@ public class STTestMain extends JFrame {
                     // TODO Auto-generated method stub
                     lock=true;
                     BufferedImage image = STDrawingArea.getImage();
-                    boolean thomas = false;
-                    while(!thomas) {
-                        try {
-                            Send.send(image);
-                            receive();
-                            thomas = true;
-                        } catch (Exception ex) {
+                    Thread thread1 = new Thread(() -> {
+                        boolean thomas = false;
+                        while(!thomas) {
                             try {
-                                TimeUnit.SECONDS.sleep(5);
-                            } catch (InterruptedException exc) {
-                                exc.printStackTrace();
+                                Send.send(image);
+                                thomas = true;
+                            } catch (Exception ex) {
+                                try {
+                                    TimeUnit.SECONDS.sleep(2);
+                                } catch (InterruptedException exc) {
+                                    exc.printStackTrace();
+                                }
                             }
                         }
+                    });
+
+                    Thread thread2 = new Thread(() -> {
+                        try {
+                            receive();
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+
+// Start the downloads.
+                    thread2.start();
+                    thread1.start();
+
+// Wait for them both to finish
+                    try {
+                        thread1.join();
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
                     }
+                    try {
+                        thread2.join();
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
             });
 
