@@ -13,7 +13,7 @@ public class Send {
     }
 
     public static void send(BufferedImage image) throws Exception {
-        Socket socket = new Socket("10.32.0.114", 13085);
+        Socket socket = new Socket("10.32.0.231", 13085);
         OutputStream outputStream = socket.getOutputStream();
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

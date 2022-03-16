@@ -37,7 +37,7 @@ public class Receive {
         InputStream inputStream = socket.getInputStream();
 
         System.out.println("Reading: " + System.currentTimeMillis());
-//if buffered image
+
         byte[] sizeAr = new byte[4];
         inputStream.read(sizeAr);
         int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
