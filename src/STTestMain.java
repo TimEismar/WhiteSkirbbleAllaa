@@ -1,5 +1,4 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
@@ -53,6 +52,7 @@ public class STTestMain extends JFrame {
                     while(!thomas) {
                         try {
                             Send.send(image);
+                            receive();
                             thomas = true;
                         } catch (Exception ex) {
                             try {
@@ -87,9 +87,9 @@ public class STTestMain extends JFrame {
             JTextField ergebnis = new JTextField("", 30);
             JButton btnRedPen = new JButton("Fertig");
             boolean h=true;
-            while(h){
+            /**while(h){
                 receive();
-            }
+            }**/
             btnRedPen.addActionListener(new ActionListener() {
 
                 @Override
@@ -171,7 +171,10 @@ public class STTestMain extends JFrame {
         STDrawingArea.setEmpfangen(true);
         STTestMain Result=new STTestMain();
 
-        Result.add(new JLabel(new ImageIcon(image)));
+
+        //Result.add(new JLabel(new ImageIcon(image)));
+        //Result.add(new JTextField("alla"));
+        Result.setImage(image);
         serverSocket.close();
         STDrawingArea.setEmpfangen(false);
     }
@@ -191,6 +194,7 @@ public class STTestMain extends JFrame {
 
     }
 
+    public void setImage(BufferedImage i){drawingArea.setImage(i);}
 
 
 }

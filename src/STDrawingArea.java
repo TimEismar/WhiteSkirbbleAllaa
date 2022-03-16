@@ -79,6 +79,7 @@ public class STDrawingArea extends JPanel {
         freehandLines(g);
 
     }
+    public void setImage(BufferedImage b){bImage = b; drawIntoBufferedImage();}
     public void drawIntoBufferedImage()
     {
         Graphics g = bImage.getGraphics();
