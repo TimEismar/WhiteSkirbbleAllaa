@@ -10,9 +10,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.concurrent.TimeUnit;
 
 
 public class STTestMain extends JFrame {
+
     static boolean lock=false;
     boolean empfangen=STDrawingArea.getEmpfangen();
     STDrawingArea drawingArea = new STDrawingArea();
@@ -47,10 +49,18 @@ public class STTestMain extends JFrame {
                     // TODO Auto-generated method stub
                     lock=true;
                     BufferedImage image = STDrawingArea.getImage();
-                    try {
-                        Send.send(image);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    boolean thomas = false;
+                    while(!thomas) {
+                        try {
+                            Send.send(image);
+                            thomas = true;
+                        } catch (Exception ex) {
+                            try {
+                                TimeUnit.SECONDS.sleep(5);
+                            } catch (InterruptedException exc) {
+                                exc.printStackTrace();
+                            }
+                        }
                     }
                 }
             });
@@ -87,10 +97,18 @@ public class STTestMain extends JFrame {
                     // TODO Auto-generated method stub
                     String result=ergebnis.getText();
                     lock=false;
-                    try {
-                        Send.sendTxt(result);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    boolean thomas = false;
+                    while(!thomas) {
+                        try {
+                            Send.sendTxt(result);
+                            thomas = true;
+                        } catch (Exception ex) {
+                            try {
+                                TimeUnit.SECONDS.sleep(5);
+                            } catch (InterruptedException exc) {
+                                exc.printStackTrace();
+                            }
+                        }
                     }
                 }
             });
@@ -172,5 +190,7 @@ public class STTestMain extends JFrame {
         return sb.toString();
 
     }
+
+
 
 }
