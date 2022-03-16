@@ -10,12 +10,15 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.concurrent.TimeUnit;
 
 
 public class STTestMain extends JFrame {
-    boolean empfangen=true;
+
+    static boolean lock=false;
+    boolean empfangen=STDrawingArea.getEmpfangen();
     STDrawingArea drawingArea = new STDrawingArea();
-    public STTestMain() throws IOException {
+    public STTestMain() throws Exception {
         //JFrame settings
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -44,11 +47,20 @@ public class STTestMain extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
+                    lock=true;
                     BufferedImage image = STDrawingArea.getImage();
-                    try {
-                        Send.send(image);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
+                    boolean thomas = false;
+                    while(!thomas) {
+                        try {
+                            Send.send(image);
+                            thomas = true;
+                        } catch (Exception ex) {
+                            try {
+                                TimeUnit.SECONDS.sleep(5);
+                            } catch (InterruptedException exc) {
+                                exc.printStackTrace();
+                            }
+                        }
                     }
                 }
             });
@@ -71,14 +83,33 @@ public class STTestMain extends JFrame {
                 }
             });
         }else{
+            lock=true;
             JTextField ergebnis = new JTextField("", 30);
             JButton btnRedPen = new JButton("Fertig");
+            boolean h=true;
+            while(h){
+                receive();
+            }
             btnRedPen.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     // TODO Auto-generated method stub
                     String result=ergebnis.getText();
+                    lock=false;
+                    boolean thomas = false;
+                    while(!thomas) {
+                        try {
+                            Send.sendTxt(result);
+                            thomas = true;
+                        } catch (Exception ex) {
+                            try {
+                                TimeUnit.SECONDS.sleep(5);
+                            } catch (InterruptedException exc) {
+                                exc.printStackTrace();
+                            }
+                        }
+                    }
                 }
             });
             buttonContainer.add(ergebnis);
@@ -90,10 +121,9 @@ public class STTestMain extends JFrame {
         pack();
 
 
-
     }
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) throws Exception {
         STTestMain test = new STTestMain();
     }
     private JMenuBar createMenuBar() {
@@ -138,8 +168,12 @@ public class STTestMain extends JFrame {
         System.out.println("Received " + image.getHeight() + "x" + image.getWidth() + ": " + System.currentTimeMillis());
 
         drawingArea.clearDrawings();
-        drawingArea.add(new JLabel(new ImageIcon(image)));
+        STDrawingArea.setEmpfangen(true);
+        STTestMain Result=new STTestMain();
+
+        Result.add(new JLabel(new ImageIcon(image)));
         serverSocket.close();
+        STDrawingArea.setEmpfangen(false);
     }
     public String receiveTxt() throws Exception{
         ServerSocket serverSocket = new ServerSocket(13085);
@@ -156,5 +190,7 @@ public class STTestMain extends JFrame {
         return sb.toString();
 
     }
+
+
 
 }

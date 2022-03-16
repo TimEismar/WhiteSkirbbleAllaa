@@ -29,7 +29,7 @@ public class Send {
         System.out.println("Closing: " + System.currentTimeMillis());
         socket.close();
     }
-    public void sendTxt(String txt) throws Exception {
+    public static void sendTxt(String txt) throws Exception {
         Socket socket = new Socket("localhost", 13085);
         OutputStream outputStream = socket.getOutputStream();
 

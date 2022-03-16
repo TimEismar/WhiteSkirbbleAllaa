@@ -26,6 +26,8 @@ public class STDrawingArea extends JPanel {
     public static BufferedImage getImage(){
         return bImage;
     }
+    public static Boolean empfangen=false;
+
     public STDrawingArea()
     {
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -86,40 +88,17 @@ public class STDrawingArea extends JPanel {
 
     public void freehandLines(Graphics g)
     {
-        /*if(points != null && points.size() > 1){
+        if(!STTestMain.lock) {
+            if (points != null && points.size() > 1) {
 
-            addMouseListener(new MouseAdapter(){
-
-                public void mouseReleased(MouseEvent e)
-                {
-                   oldX= e.getX();
-                   oldY= e.getY();
+                g.setColor(getCurrentColor());
+                for (int i = 0; i < points.size() - 1; i++) {
+                    int x1 = points.get(i).x;
+                    int y1 = points.get(i).y;
+                    int x2 = points.get(i + 1).x;
+                    int y2 = points.get(i + 1).y;
+                    g.drawLine(x1, y1, x2, y2);
                 }
-            });
-            addMouseListener(new MouseAdapter(){
-
-                public void mouseReleased(MouseEvent e)
-                {
-                    currentX= e.getX();
-                    currentY= e.getY();
-                }
-            });
-
-            g.setColor(getCurrentColor());
-            g.drawRect(oldX,oldY,currentX-oldX,currentY-oldY);
-        }*/
-
-        if(points != null && points.size() > 1)
-        {
-
-            g.setColor(getCurrentColor());
-            for(int i = 0; i < points.size()-1;i++)
-            {
-                int x1 = points.get(i).x;
-                int y1 = points.get(i).y;
-                int x2 = points.get(i+1).x;
-                int y2 = points.get(i+1).y;
-                g.drawLine(x1, y1, x2, y2);
             }
         }
     }
@@ -154,5 +133,10 @@ public class STDrawingArea extends JPanel {
         else
             return currentColor;
     }
-
+    public static Boolean getEmpfangen(){
+        return empfangen;
+    }
+    public static void setEmpfangen(Boolean x){
+        empfangen=x;
+    }
 }
